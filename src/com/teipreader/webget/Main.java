@@ -10,6 +10,7 @@ import org.ice1000.jimgui.util.JniLoader;
 
 import java.io.File;
 import java.io.FileReader;
+import java.util.Objects;
 
 
 public class Main {
@@ -68,7 +69,7 @@ public class Main {
             }
             if(ThingIO.ot()!=null){
                 imGui.begin("下载中...");
-                imGui.text(AutoBR(ThingIO.ot(),20));
+                imGui.text(ThingIO.ot());
                 imGui.setWindowSize("下载中...",500,300);
                 if(imGui.button("取消下载")){
                     ThingIO.close_task=true;
@@ -115,6 +116,9 @@ public class Main {
                 rt.append("\r\n");
             }
             rt.append(string);
+            if(Objects.equals(string, "\r") || Objects.equals(string, "\n") || Objects.equals(string, "\r\n") || Objects.equals(string, "\n\r")){
+                s=0;
+            }
         }
         return rt.toString();
     }

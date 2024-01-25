@@ -1,5 +1,6 @@
 package com.teipreader.reptile.lib;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.sun.tools.javac.Main;
@@ -13,7 +14,9 @@ import java.util.regex.Pattern;
 import java.util.zip.ZipOutputStream;
 
 import static com.teipreader.reptile.lib.File_use.compressFolder;
+import static com.teipreader.reptile.lib.PreText_pro.TextProgressBar;
 import static com.teipreader.reptile.lib.ThingIO.close_task;
+import static com.teipreader.webget.Main.AutoBR;
 
 public class get_thing {
     public static boolean debugM = false;
@@ -187,7 +190,12 @@ public class get_thing {
                         jx.get("text").getAsJsonObject().get("start").getAsString(),
                         jx.get("text").getAsJsonObject().get("end").getAsString()
                 );
-                ThingIO.out_text = "正在下载:"+name+"\r\n作者:"+by+"\r\n简介:"+ot+"\r\n进度: "+i+"/"+ul.size()+" ("+title+")";
+                ThingIO.out_text = "正在下载:"+name+"\r\n作者:"+by+"\r\n简介:"+AutoBR(ot,34)+"\r\n进度: "+i+"/"+ul.size()+" ("+title+")\r\n"+TextProgressBar(ul.size(),i);
+                JsonArray tt = jx.get("replace").getAsJsonArray();
+                //处理文本
+                for (int j = 0; j < tt.size(); j++) {
+                    text=text.replace(tt.get(j).getAsJsonObject().get("from").getAsString(),tt.get(j).getAsJsonObject().get("to").getAsString());
+                }
                 bufferWriter_txt.write(title+"\r\n"+text+"\r\n");
                 //System.out.println(text);
             }
@@ -218,11 +226,11 @@ public class get_thing {
                 e.printStackTrace();
             }
         }
-        if(Objects.equals(jx.get("mode").getAsString(), "tool")){
-            //{"mode":"tool","in":"[工具-清除空行]打开一个文件","id":"clnop"}
-            //{"mode":"tool","in":"[工具-批量替换]打开一个文件","id":"repall"}
-
-        }
+//        if(Objects.equals(jx.get("mode").getAsString(), "tool")){
+//            //{"mode":"tool","in":"[工具-清除空行]打开一个文件","id":"clnop"}
+//            //{"mode":"tool","in":"[工具-批量替换]打开一个文件","id":"repall"}
+//
+//        }
         ThingIO.out_text = null;
         return true;
     }
