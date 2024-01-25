@@ -3,7 +3,6 @@ package com.teipreader.reptile.lib;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.sun.tools.javac.Main;
 
 import java.io.*;
 import java.net.MalformedURLException;
