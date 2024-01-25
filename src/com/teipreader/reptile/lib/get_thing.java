@@ -10,7 +10,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.regex.Pattern;
+import java.util.zip.ZipOutputStream;
 
+import static com.teipreader.reptile.lib.File_use.compressFolder;
 import static com.teipreader.reptile.lib.ThingIO.close_task;
 
 public class get_thing {
@@ -202,6 +204,24 @@ public class get_thing {
             bufferWriter_info.write("ot = "+ot+"\r\n");
             bufferWriter_info.write("say = 本小说由IDlike提供的工具下载,工具可以从https://github.com/txlweb/web-novel-reptile-tool获取.\r\n");
             bufferWriter_info.close();
+            //准备制作teip
+            //获取md5
+            String MD5 = File_use.getFileMD5("./dw_txt.txt");
+            new File(MD5).mkdir();
+            File_use.CopyFileToThis(new File("./dw_txt.txt"),new File("./"+MD5+"/main.txt"));
+            File_use.CopyFileToThis(new File("./resource.ini"),new File("./"+MD5+"/resource.ini"));
+            Download_file.Dw_File(img,"icon.jpg");
+            File_use.CopyFileToThis(new File("./icon.jpg"),new File("./"+MD5+"/icon.jpg"));
+            try (ZipOutputStream zipOutputStream = new ZipOutputStream(new FileOutputStream("out_"+MD5+".teip2"))) {
+                compressFolder("./"+MD5, "./"+MD5, zipOutputStream);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        if(Objects.equals(jx.get("mode").getAsString(), "tool")){
+            //{"mode":"tool","in":"[工具-清除空行]打开一个文件","id":"clnop"}
+            //{"mode":"tool","in":"[工具-批量替换]打开一个文件","id":"repall"}
+
         }
         ThingIO.out_text = null;
         return true;

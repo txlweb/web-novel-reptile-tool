@@ -1,3 +1,5 @@
+package com.teipreader.webget;
+
 public interface start_command_ {
     void run();
 

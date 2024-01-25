@@ -1,3 +1,5 @@
+package com.teipreader.webget;
+
 import com.teipreader.reptile.lib.ThingIO;
 
 import static com.teipreader.reptile.lib.get_thing.ByJsonDownload;

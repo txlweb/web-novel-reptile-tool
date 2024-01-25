@@ -1,3 +1,5 @@
+package com.teipreader.webget;
+
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.teipreader.reptile.lib.ThingIO;
@@ -8,7 +10,6 @@ import org.ice1000.jimgui.util.JniLoader;
 
 import java.io.File;
 import java.io.FileReader;
-import java.io.IOException;
 
 
 public class Main {
