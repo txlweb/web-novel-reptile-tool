@@ -1,0 +1,11 @@
+{
+  "mode":"list",
+  "list":{"start":"<div class=\"listmain\">","S1":"<dd><a href =\"","S2":"\"","I1":"1","I2":"0"},
+  "title":{"start":"<div class=\"header_wap pc_none\">","S1":"<span class=\"title\">","S2":"</span>","I1":"1","I2":"0","id":"0"},
+  "text":{"start":"<div id=\"chaptercontent\" class=\"Readarea ReadAjax_content\">","end":"<p"},
+  "name":{"start":"<div class=\"info\">","S1":"<h1>","S2":"</h1>","I1":"1","I2":"0","id":"0"},
+  "by":{"start":"<div class=\"info\">","S1":"<div class=\"small\"><span>","S2":"</span>","I1":"1","I2":"0","id":"0"},
+  "ot":{"start":"<div class=\"info\">","S1":"</dt><dd>","S2":"</dd>","I1":"1","I2":"0","id":"0"},
+  "im":{"start":"<div class=\"cover\">","S1":"<div class=\"cover\"><img src=\"","S2":"\"","I1":"1","I2":"0","id":"0"},
+  "url_add":"https://www.bqg90.com"
+}
