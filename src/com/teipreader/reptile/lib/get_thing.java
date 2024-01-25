@@ -2,6 +2,7 @@ package com.teipreader.reptile.lib;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.sun.tools.javac.Main;
 
 import java.io.*;
 import java.net.MalformedURLException;
@@ -10,19 +11,27 @@ import java.util.List;
 import java.util.Objects;
 import java.util.regex.Pattern;
 
+import static com.teipreader.reptile.lib.ThingIO.close_task;
+
 public class get_thing {
+    public static boolean debugM = false;
+    public static String ot = null;
     public static String getStringBySplit(String in, String Slips, int id){
+        if(debugM) System.out.println(in);
+        if(debugM) System.out.println(Slips);
+        if(debugM) System.out.println(id);
         if(id == -1) return in;
         String[] a = in.split(Slips);
-        if(a.length < id) return in;//给的ID太大,直接返回原值
+        if(a.length <= id) return in;//给的ID太大,直接返回原值
         return a[id];
     }
     public static List<String> GetList (String url,String start_tag,String split_tag_1,int split_id_1,String split_tag_2,int split_id_2,boolean Line_mode) throws MalformedURLException {
-        Download_file.Dw_File(url,"tmp-list.txt");
+        new File("./tmp-list.txt").delete();
+        Download_file.Dw_File(url,"./tmp-list.txt");
         StringBuilder t = new StringBuilder();
         List<String> ret = new ArrayList<>();
         boolean start = false;
-        for (String s : File_use.ReadCFGFile("tmp-list.txt")) {
+        for (String s : File_use.ReadCFGFile("./tmp-list.txt")) {
             if(Line_mode){
                 if(s.contains(start_tag)) start=true;//找到关键词才开始
                 if(start) {
@@ -40,10 +49,12 @@ public class get_thing {
         return ret;
     }
     public static String GetString (String url,String start_tag,String split_tag_1,int split_id_1,String split_tag_2,int split_id_2,int ID) throws MalformedURLException {
-        Download_file.Dw_File(url,"tmp-string.txt");
+        if(debugM) System.out.println(url);
+        new File("./tmp-string.txt").delete();
+        Download_file.Dw_File(url,"./tmp-string.txt");
         boolean start = false;
         int idd = 0;
-        for (String s : File_use.ReadCFGFile("tmp-list.txt")) {
+        for (String s : File_use.ReadCFGFile("./tmp-string.txt")) {
             if(s.contains(start_tag)) start=true;//找到关键词才开始
             if(start) {
                 String m = getStringBySplit(getStringBySplit(s, split_tag_1, split_id_1), split_tag_2, split_id_2);
@@ -56,13 +67,15 @@ public class get_thing {
         return "";
     }
     public static String GetText (String url,String start_tag,String end_tag) throws MalformedURLException {
-        Download_file.Dw_File(url,"tmp-string.txt");
+        new File("./tmp-string.txt").delete();
+        Download_file.Dw_File(url,"./tmp-string.txt");
         boolean start = false;
         StringBuilder t = new StringBuilder();
-
-        for (String s : File_use.ReadCFGFile("tmp-list.txt")) {
+        List<String> f = File_use.ReadCFGFile("./tmp-string.txt");
+        for (String s : f) {
             if(s.contains(start_tag)) start=true;//找到关键词才开始
             if(start) {
+                if(debugM) System.out.println(s);
                 t.append(s);
                 if(s.contains(end_tag)){return t.toString();}
             }
@@ -90,6 +103,7 @@ public class get_thing {
         }
         //解析模式信息
         if(Objects.equals(jx.get("mode").getAsString(), "list")){//列表模式
+            ThingIO.out_text = "正在获取数据...";
             //获取标题/图片/作者/简介
             String name = GetString(
                     start_url,
@@ -144,11 +158,18 @@ public class get_thing {
                     jx.get("list").getAsJsonObject().get("I2").getAsInt(),
                     true
             );
+
             //新建一个buffer写入
+            new File("./dw_txt.txt").delete();
+            new File("./dw_txt.txt").createNewFile();
             FileWriter fileWriter_txt = new FileWriter(new File("./dw_txt.txt").getName(), true);
             BufferedWriter bufferWriter_txt = new BufferedWriter(fileWriter_txt);
             //根据URL列表访问并下载
             for (int i = 0; i < ul.size(); i++) {
+                if(close_task){
+                    close_task=false;
+                    return false;
+                }
                 System.out.println(i+"/"+ul.size());
                 String title = GetString(
                         jx.get("url_add").getAsString()+ul.get(i),
@@ -160,16 +181,30 @@ public class get_thing {
                         jx.get("title").getAsJsonObject().get("id").getAsInt()
                 );
                 String text = GetText(
-                        jx.get("url_add").getAsString()+ul.get(i),
+                        jx.get("url_add").getAsString()+"/"+ul.get(i),
                         jx.get("text").getAsJsonObject().get("start").getAsString(),
                         jx.get("text").getAsJsonObject().get("end").getAsString()
                 );
+                ThingIO.out_text = "正在下载:"+name+"\r\n作者:"+by+"\r\n简介:"+ot+"\r\n进度: "+i+"/"+ul.size()+" ("+title+")";
                 bufferWriter_txt.write(title+"\r\n"+text+"\r\n");
+                //System.out.println(text);
             }
             bufferWriter_txt.close();
+            //buffer写入一个配置文件
+            new File("./resource.ini").delete();
+            new File("./resource.ini").createNewFile();
+            FileWriter fileWriter_info = new FileWriter(new File("./resource.ini").getName(), true);
+            BufferedWriter bufferWriter_info = new BufferedWriter(fileWriter_txt);
+            bufferWriter_info.write("[conf]\r\n");
+            bufferWriter_info.write("icon = icon.jpg");
+            bufferWriter_info.write("title = "+name+"\r\n");
+            bufferWriter_info.write("by = "+by+"\r\n");
+            bufferWriter_info.write("ot = "+ot+"\r\n");
+            bufferWriter_info.write("say = 本小说由IDlike提供的工具下载,工具可以从https://github.com/txlweb/web-novel-reptile-tool获取.\r\n");
+            bufferWriter_info.close();
         }
+        ThingIO.out_text = null;
         return true;
-
     }
 }
 
