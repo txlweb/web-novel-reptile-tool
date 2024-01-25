@@ -10,15 +10,12 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
-import static com.teipreader.reptile.lib.File_use.ReadFileText;
-import static com.teipreader.reptile.lib.get_thing.ByJsonDownload;
-import static com.teipreader.reptile.lib.get_thing.getStringBySplit;
 
 public class Main {
 
     static boolean Is_fail = false;
-    static String dw_p = null;
-    public static void main(String[] args) throws IOException {
+
+    public static void start_window() {
         new File("imgui.ini").delete();
         new File("./rules/").mkdir();
 
@@ -78,7 +75,6 @@ public class Main {
             }
             imGui.render();
         }
-        return;
     }
     public static void NS_add_string(NativeString ns,String text){
         //逆天!居然得一个一个字节压进去(
