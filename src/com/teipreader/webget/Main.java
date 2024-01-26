@@ -16,7 +16,7 @@ import java.util.Objects;
 public class Main {
 
     static boolean Is_fail = false;
-
+    static String logs = "";
     public static void start_window() {
         new File("imgui.ini").delete();
         new File("./rules/").mkdir();
@@ -26,14 +26,15 @@ public class Main {
         JImGuiIO imGio = imGui.getIO();
         //导出字库
         if (Main.class.getClassLoader().getResource("msyh.ttc") != null || new File("./msyh.ttc").isFile())
-            imGio.getFonts().addFontFromFile("./msyh.ttc",20.0f,new JImFontConfig(),imGio.getFonts().getGlyphRangesForChineseFull());
+            imGio.getFonts().addFontFromFile("./msyh.ttc", 20.0f, new JImFontConfig(), imGio.getFonts().getGlyphRangesForChineseFull());
         else//测试环境用的
-            imGio.getFonts().addFontFromFile("./font/msyh.ttc",20.0f,new JImFontConfig(),imGio.getFonts().getGlyphRangesForChineseFull());
+            imGio.getFonts().addFontFromFile("./font/msyh.ttc", 20.0f, new JImFontConfig(), imGio.getFonts().getGlyphRangesForChineseFull());
         NativeBool use_debug = new NativeBool();
+        NativeString inpcom = new NativeString();
         while (!imGui.windowShouldClose()) {
             imGui.initNewFrame();
-            get_thing.debugM=use_debug.accessValue();
-            if(ThingIO.ot()==null) {
+            get_thing.debugM = use_debug.accessValue();
+            if (ThingIO.ot() == null) {
                 imGui.begin("下载小说");
                 imGui.text("选择模板");
                 imGui.text("注意:这些模板都不是由作者提供的,被爬的网站也不是作者找的,所以不保证能爬成功,也不保证是否有风险.模板存放在./rules文件夹,编写规则在readme.md中已提供.");
@@ -64,34 +65,44 @@ public class Main {
                     }
                 }
             }
-            if(Is_fail){
-                Is_fail=Window_y_n(imGui,"下载失败!","下载失败,请检查规则文件和初始链接是否正常.");
+            if (Is_fail) {
+                Is_fail = Window_y_n(imGui, "下载失败!", "下载失败,请检查规则文件和初始链接是否正常.");
             }
-            if(ThingIO.ot()!=null){
+            if (ThingIO.ot() != null) {
                 imGui.begin("下载中...");
                 imGui.text(ThingIO.ot());
-                imGui.setWindowSize("下载中...",500,300);
-                if(imGui.button("取消下载")){
-                    ThingIO.close_task=true;
+                imGui.setWindowSize("下载中...", 500, 300);
+                if (imGui.button("取消下载")) {
+                    ThingIO.close_task = true;
                 }
+            }
+            imGui.begin("控制台");
+            imGui.text(logs);
+            imGui.inputText("command",inpcom);
+            if(imGui.button("运行")){
+                if(inpcom.toString()=="help") log("-- 控制台指令帮助 --\r\n 1.help 打印帮助\r\n 2.没有了");
             }
             imGui.render();
         }
     }
-    public static void NS_add_string(NativeString ns,String text){
+
+    public static void NS_add_string(NativeString ns, String text) {
         //逆天!居然得一个一个字节压进去(
         byte[] a = text.getBytes();
         for (byte b : a) {
             ns.append(b);
         }
     }
-    public static String Window_Input(JImGui imGui,String Title,String say,String auto_thing){
+    public static void log(String text){
+        logs=logs+text+"\r\n";
+    }
+    public static String Window_Input(JImGui imGui, String Title, String say, String auto_thing) {
         NativeString out = new NativeString();
-        NS_add_string(out,auto_thing);
+        NS_add_string(out, auto_thing);
         while (!imGui.windowShouldClose()) {
             imGui.initNewFrame();
-            imGui.begin(Title,new NativeBool(), JImWindowFlags.NoTitleBar);
-            imGui.setWindowSize(Title,400,300);
+            imGui.begin(Title, new NativeBool(), JImWindowFlags.NoTitleBar);
+            imGui.setWindowSize(Title, 400, 300);
             imGui.text(Title);
             imGui.text("");
             imGui.text(AutoBR(say, 40));
@@ -105,10 +116,11 @@ public class Main {
         }
         return out.toString();
     }
-    public static String AutoBR(String text,int line_size){
+
+    public static String AutoBR(String text, int line_size) {
         String[] t = text.split("");
         int s = 0;
-        StringBuilder rt= new StringBuilder();
+        StringBuilder rt = new StringBuilder();
         for (String string : t) {
             s++;
             if (s > line_size) {
@@ -116,17 +128,18 @@ public class Main {
                 rt.append("\r\n");
             }
             rt.append(string);
-            if(Objects.equals(string, "\r") || Objects.equals(string, "\n") || Objects.equals(string, "\r\n") || Objects.equals(string, "\n\r")){
-                s=0;
+            if (Objects.equals(string, "\r") || Objects.equals(string, "\n") || Objects.equals(string, "\r\n") || Objects.equals(string, "\n\r")) {
+                s = 0;
             }
         }
         return rt.toString();
     }
-    public static boolean Window_y_n(JImGui imGui,String Title,String say){
+
+    public static boolean Window_y_n(JImGui imGui, String Title, String say) {
         while (!imGui.windowShouldClose()) {
             imGui.initNewFrame();
-            imGui.begin(Title,new NativeBool(), JImWindowFlags.NoTitleBar);
-            imGui.setWindowSize(Title,400,300);
+            imGui.begin(Title, new NativeBool(), JImWindowFlags.NoTitleBar);
+            imGui.setWindowSize(Title, 400, 300);
             imGui.text(Title);
             imGui.text("");
             imGui.text(say);

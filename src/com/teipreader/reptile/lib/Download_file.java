@@ -21,8 +21,12 @@ public class Download_file {
         }
         return fileSize;
     }
-
+    public static String last_url="";
     public static boolean Dw_File(String dw_url, String save_as) throws MalformedURLException {
+        if(dw_url==last_url){
+            //return true;
+        }
+        last_url=dw_url;
         int bytesum = 0;
         int byteread;
         long longer = getFileSize(dw_url);

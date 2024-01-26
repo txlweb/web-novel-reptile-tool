@@ -13,6 +13,7 @@ import java.util.zip.ZipOutputStream;
 
 public class File_use {
     private static final char[] hexCode = "0123456789abcdef".toCharArray();
+
     public static void allClose(Closeable... closeables) {
         for (Closeable closeable : closeables) {
             try {
@@ -22,7 +23,8 @@ public class File_use {
             }
         }
     }
-    public static String ReadFileText(String strFilePath){
+
+    public static String ReadFileText(String strFilePath) {
         String r = "";
         List<String> a = ReadCFGFile(strFilePath);
         for (String s : a) {
@@ -30,11 +32,13 @@ public class File_use {
         }
         return r;
     }
+
     public static List<String> ReadCFGFile(String strFilePath) {
         File file = new File(strFilePath);
         List<String> rstr = new ArrayList<>();
         if (!file.exists() || file.isDirectory()) {
             System.out.println((char) 27 + "[31m[E]: 找不到文件." + (char) 27 + "[39;49m");
+            return rstr;
         } else {
             FileInputStream fileInputStream = null;
             InputStreamReader inputStreamReader = null;
@@ -56,6 +60,7 @@ public class File_use {
         }
         return rstr;
     }
+
     public static void WriteFileToThis(String file_name, String data) {
         try {
             File file = new File(file_name);
@@ -80,6 +85,7 @@ public class File_use {
             outputChannel.transferFrom(inputChannel, 0, inputChannel.size());
         }
     }
+
     public static String getFileMD5(String fileName) {
         File file = new File(fileName);
         try (InputStream stream = Files.newInputStream(file.toPath(), StandardOpenOption.READ)) {
@@ -95,6 +101,7 @@ public class File_use {
             return "";
         }
     }
+
     public static String getTextMD5(String Text) {
         try {
             MessageDigest digest = MessageDigest.getInstance("MD5");
@@ -105,6 +112,7 @@ public class File_use {
             throw new RuntimeException(e);
         }
     }
+
     public static String toHexString(byte[] data) {
         StringBuilder r = new StringBuilder(data.length * 2);
         for (byte b : data) {
@@ -113,6 +121,7 @@ public class File_use {
         }
         return r.toString();
     }
+
     public static void compressFolder(String sourceFolder, String folderName, ZipOutputStream zipOutputStream) throws IOException {
         File folder = new File(sourceFolder);
         File[] files = folder.listFiles();
@@ -129,6 +138,7 @@ public class File_use {
             }
         }
     }
+
     public static void addToZipFile(String fileName, String fileAbsolutePath, ZipOutputStream zipOutputStream) throws IOException {
         // 创建ZipEntry对象并设置文件名
         ZipEntry entry = new ZipEntry(fileName);

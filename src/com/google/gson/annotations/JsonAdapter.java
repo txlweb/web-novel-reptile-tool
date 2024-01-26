@@ -18,6 +18,7 @@ package com.google.gson.annotations;
 
 import com.google.gson.TypeAdapter;
 import com.google.gson.TypeAdapterFactory;
+
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -56,7 +57,7 @@ import java.lang.annotation.Target;
  *   }
  * }
  * </pre>
- *
+ * <p>
  * Since User class specified UserJsonAdapter.class in &#64JsonAdapter annotation, it
  * will automatically be invoked to serialize/deserialize User instances. <br>
  *
@@ -70,7 +71,7 @@ import java.lang.annotation.Target;
  *   }
  * }
  * </pre>
- *
+ * <p>
  * It's possible to specify different type adapters on a field, that
  * field's type, and in the {@link com.google.gson.GsonBuilder}. Field
  * annotations take precedence over {@code GsonBuilder}-registered type
@@ -80,21 +81,24 @@ import java.lang.annotation.Target;
  * TypeAdapter} or a {@link TypeAdapterFactory}. Using the factory interface
  * makes it possible to delegate to the enclosing {@code Gson} instance.
  *
- * @since 2.3
- *
  * @author Inderjeet Singh
  * @author Joel Leitch
  * @author Jesse Wilson
+ * @since 2.3
  */
 // Note that the above example is taken from AdaptAnnotationTest.
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE, ElementType.FIELD})
 public @interface JsonAdapter {
 
-  /** Either a {@link TypeAdapter} or {@link TypeAdapterFactory}. */
-  Class<?> value();
+    /**
+     * Either a {@link TypeAdapter} or {@link TypeAdapterFactory}.
+     */
+    Class<?> value();
 
-  /** false, to be able to handle {@code null} values within the adapter, default value is true. */
-  boolean nullSafe() default true;
+    /**
+     * false, to be able to handle {@code null} values within the adapter, default value is true.
+     */
+    boolean nullSafe() default true;
 
 }
