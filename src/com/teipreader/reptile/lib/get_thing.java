@@ -16,6 +16,7 @@ import java.util.zip.ZipOutputStream;
 import static com.teipreader.reptile.lib.File_use.compressFolder;
 import static com.teipreader.reptile.lib.PreText_pro.TextProgressBar;
 import static com.teipreader.reptile.lib.ThingIO.close_task;
+import static com.teipreader.webget.Boot.start_path;
 import static com.teipreader.webget.Main.AutoBR;
 
 public class get_thing {
@@ -33,12 +34,12 @@ public class get_thing {
     }
 
     public static List<String> GetList(String url, String start_tag, String split_tag_1, int split_id_1, String split_tag_2, int split_id_2, boolean Line_mode) throws IOException {
-        new File("./tmp-list.txt").delete();
-        Download_file.Dw_File(url, "./tmp-list.txt");
+        new File(start_path+"/tmp-list.txt").delete();
+        Download_file.Dw_File(url, start_path+"/tmp-list.txt");
         StringBuilder t = new StringBuilder();
         List<String> ret = new ArrayList<>();
         boolean start = false;
-        for (String s : File_use.ReadCFGFile("./tmp-list.txt")) {
+        for (String s : File_use.ReadCFGFile(start_path+"/tmp-list.txt")) {
             if (Line_mode) {
                 if (s.contains(start_tag)) start = true;//找到关键词才开始
                 if (start) {
@@ -58,11 +59,11 @@ public class get_thing {
 
     public static String GetString(String url, String start_tag, String split_tag_1, int split_id_1, String split_tag_2, int split_id_2, int ID) throws IOException {
         if (debugM) System.out.println(url);
-        new File("./tmp-string.txt").delete();
-        Download_file.Dw_File(url, "./tmp-string.txt");
+        new File(start_path+"/tmp-string.txt").delete();
+        Download_file.Dw_File(url, start_path+"/tmp-string.txt");
         boolean start = false;
         int idd = 0;
-        List<String> a = File_use.ReadCFGFile("./tmp-string.txt");
+        List<String> a = File_use.ReadCFGFile(start_path+"/tmp-string.txt");
         for (String s : a) {
             if (s.contains(start_tag)) start = true;//找到关键词才开始
             if (start) {
@@ -77,11 +78,11 @@ public class get_thing {
     }
 
     public static String GetText(String url, String start_tag, String end_tag) throws IOException {
-        new File("./tmp-string.txt").delete();
-        Download_file.Dw_File(url, "./tmp-string.txt");
+        new File(start_path+"/tmp-string.txt").delete();
+        Download_file.Dw_File(url, start_path+"/tmp-string.txt");
         boolean start = false;
         StringBuilder t = new StringBuilder();
-        List<String> f = File_use.ReadCFGFile("./tmp-string.txt");
+        List<String> f = File_use.ReadCFGFile(start_path+"/tmp-string.txt");
         for (String s : f) {
             if (s.contains(start_tag)) start = true;//找到关键词才开始
             if (start) {
@@ -173,9 +174,9 @@ public class get_thing {
             );
 
             //新建一个buffer写入
-            new File("./dw_txt.txt").delete();
-            new File("./dw_txt.txt").createNewFile();
-            FileWriter fileWriter_txt = new FileWriter(new File("./dw_txt.txt").getName(), true);
+            new File(start_path+"/dw_txt.txt").delete();
+            new File(start_path+"/dw_txt.txt").createNewFile();
+            FileWriter fileWriter_txt = new FileWriter(new File(start_path+"/dw_txt.txt").getName(), true);
             BufferedWriter bufferWriter_txt = new BufferedWriter(fileWriter_txt);
             //根据URL列表访问并下载
             try {
@@ -220,9 +221,9 @@ public class get_thing {
 
             bufferWriter_txt.close();
             //buffer写入一个配置文件
-            new File("./resource.ini").delete();
-            new File("./resource.ini").createNewFile();
-            FileWriter fileWriter_info = new FileWriter(new File("./resource.ini").getName(), true);
+            new File(start_path+"/resource.ini").delete();
+            new File(start_path+"/resource.ini").createNewFile();
+            FileWriter fileWriter_info = new FileWriter(new File(start_path+"/resource.ini").getName(), true);
             BufferedWriter bufferWriter_info = new BufferedWriter(fileWriter_txt);
             bufferWriter_info.write("[conf]\r\n");
             bufferWriter_info.write("icon = icon.jpg");
@@ -233,14 +234,14 @@ public class get_thing {
             bufferWriter_info.close();
             //准备制作teip
             //获取md5
-            String MD5 = File_use.getFileMD5("./dw_txt.txt");
+            String MD5 = File_use.getFileMD5(start_path+"/dw_txt.txt");
             new File(MD5).mkdir();
-            File_use.CopyFileToThis(new File("./dw_txt.txt"), new File("./" + MD5 + "/main.txt"));
-            File_use.CopyFileToThis(new File("./resource.ini"), new File("./" + MD5 + "/resource.ini"));
-            Download_file.Dw_File(img, "icon.jpg");
-            File_use.CopyFileToThis(new File("./icon.jpg"), new File("./" + MD5 + "/icon.jpg"));
-            try (ZipOutputStream zipOutputStream = new ZipOutputStream(Files.newOutputStream(Paths.get("out_" + MD5 + ".teip2")))) {
-                compressFolder("./" + MD5, "./" + MD5, zipOutputStream);
+            File_use.CopyFileToThis(new File(start_path+"/dw_txt.txt"), new File(start_path+"/" + MD5 + "/main.txt"));
+            File_use.CopyFileToThis(new File(start_path+"/resource.ini"), new File(start_path+"/" + MD5 + "/resource.ini"));
+            Download_file.Dw_File(img, start_path+"/icon.jpg");
+            File_use.CopyFileToThis(new File(start_path+"/icon.jpg"), new File(start_path+"/" + MD5 + "/icon.jpg"));
+            try (ZipOutputStream zipOutputStream = new ZipOutputStream(Files.newOutputStream(Paths.get(start_path+"/out_" + MD5 + ".teip2")))) {
+                compressFolder(start_path+"/" + MD5, start_path+"/" + MD5, zipOutputStream);
             } catch (IOException e) {
                 Main.log("F: 打包为teip2时出现问题:"+e);
                 System.out.println("F: 打包为teip2时出现问题:"+e);

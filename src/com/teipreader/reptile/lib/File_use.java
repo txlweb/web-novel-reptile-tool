@@ -61,24 +61,6 @@ public class File_use {
         return rstr;
     }
 
-    public static void WriteFileToThis(String file_name, String data) {
-        try {
-            File file = new File(file_name);
-            if (file.exists()) {
-                file.delete();
-                file.createNewFile();
-            } else {
-                file.createNewFile();
-            }
-            FileWriter fileWriter = new FileWriter(file.getName(), true);
-            BufferedWriter bufferWriter = new BufferedWriter(fileWriter);
-            bufferWriter.write(data);
-            bufferWriter.close();
-            System.out.println("Done");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
     public static void CopyFileToThis(File source, File dest) throws IOException {
         try (FileChannel inputChannel = new FileInputStream(source).getChannel(); FileChannel outputChannel = new FileOutputStream(dest).getChannel()) {
@@ -99,17 +81,6 @@ public class File_use {
         } catch (IOException | NoSuchAlgorithmException e) {
             e.printStackTrace();
             return "";
-        }
-    }
-
-    public static String getTextMD5(String Text) {
-        try {
-            MessageDigest digest = MessageDigest.getInstance("MD5");
-            byte[] buf = Text.getBytes();
-            digest.update(buf, 0, buf.length);
-            return toHexString(digest.digest());
-        } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException(e);
         }
     }
 
