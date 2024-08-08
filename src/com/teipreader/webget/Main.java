@@ -76,12 +76,12 @@ public class Main {
                     ThingIO.close_task = true;
                 }
             }
-            imGui.begin("控制台");
-            imGui.text(logs);
-            imGui.inputText("command",inpcom);
-            if(imGui.button("运行")){
-                if(inpcom.toString()=="help") log("-- 控制台指令帮助 --\r\n 1.help 打印帮助\r\n 2.没有了");
-            }
+//            imGui.begin("控制台");
+//            imGui.text(logs);
+//            imGui.inputText("command",inpcom);
+//            if(imGui.button("运行")){
+//                if(inpcom.toString()=="help") log("-- 控制台指令帮助 --\r\n 1.help 打印帮助\r\n 2.没有了");
+//            }
             imGui.render();
         }
     }

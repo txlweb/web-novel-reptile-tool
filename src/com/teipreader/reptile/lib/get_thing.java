@@ -163,7 +163,7 @@ public class get_thing {
 
             //先获取url列表
             List<String> ul = GetList(
-                    start_url,
+                    start_url+jx.get("list_add").getAsString(),
                     jx.get("list").getAsJsonObject().get("start").getAsString(),
                     jx.get("list").getAsJsonObject().get("S1").getAsString(),
                     jx.get("list").getAsJsonObject().get("I1").getAsInt(),

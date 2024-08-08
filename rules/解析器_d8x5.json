@@ -8,5 +8,6 @@
   "ot":{"start":"<div class=\"info\">","S1":"</dt><dd>","S2":"</dd>","I1":"1","I2":"0","id":"0"},
   "im":{"start":"<div class=\"cover\">","S1":"<div class=\"cover\"><img src=\"","S2":"\"","I1":"1","I2":"0","id":"0"},
   "url_add":"https://www.d8x5.com",
+  "list_add": "",
   "replace": [{"from": "<br />","to": "\r\n"},{"from": "<div id=\"chaptercontent\" class=\"Readarea ReadAjax_content\">","to": ""}]
 }

@@ -1,0 +1,13 @@
+{
+  "mode":"list",
+  "list":{"start":"<div class=\"book_last\">","S1":"<dd><a href =\"","S2":"\"","I1":"1","I2":"0"},
+  "title":{"start":"<div class=\"header\">","S1":"<span class=\"title\">","S2":"</span>","I1":"1","I2":"0","id":"0"},
+  "text":{"start":"<div id=\"chaptercontent\" class=\"Readarea ReadAjax_content\">","end":"<p"},
+  "name":{"start":"<div class=\"book_info\">","S1":"<dt class=\"name\">","S2":"</dt>","I1":"1","I2":"0","id":"0"},
+  "by":{"start":"<div class=\"book_info\">","S1":"<dd class=\"dd_box\"><span>","S2":"</span>","I1":"1","I2":"0","id":"0"},
+  "ot":{"start":"<div class=\"book_about\">","S1":"<dd>","S2":"</dd>","I1":"1","I2":"0","id":"0"},
+  "im":{"start":"<div class=\"book_info\">","S1":"<div class=\"cover\"><img src=\"","S2":"\"","I1":"1","I2":"0","id":"0"},
+  "url_add":"https://2f160fd9502f8.bq28.cc/",
+  "list_add": "list.html",
+  "replace": [{"from": "<br />","to": "\r\n"},{"from": "<div id=\"chaptercontent\" class=\"Readarea ReadAjax_content\">","to": ""}]
+}
