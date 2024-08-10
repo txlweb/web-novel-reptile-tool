@@ -29,7 +29,8 @@ public class Download_file {
         last_url=dw_url;
         int bytesum = 0;
         int byteread;
-        long longer = getFileSize(dw_url);
+        //long longer = getFileSize(dw_url);
+        long longer=0;
         int r = 0;
         URL url = new URL(dw_url);
         try {

@@ -30,6 +30,7 @@ public class Main {
         else//测试环境用的
             imGio.getFonts().addFontFromFile("./font/msyh.ttc", 20.0f, new JImFontConfig(), imGio.getFonts().getGlyphRangesForChineseFull());
         NativeBool use_debug = new NativeBool();
+        NativeBool use_thd = new NativeBool();
         NativeString inpcom = new NativeString();
         while (!imGui.windowShouldClose()) {
             imGui.initNewFrame();
@@ -40,6 +41,8 @@ public class Main {
                 imGui.text("注意:这些模板都不是由作者提供的,被爬的网站也不是作者找的,所以不保证能爬成功,也不保证是否有风险.模板存放在./rules文件夹,编写规则在readme.md中已提供.");
                 imGui.text("注意:可以读取不等于可以用于下载,即使可以读取也可能不能下载.");
                 imGui.checkbox("在控制台打印调试信息", use_debug);
+                imGui.checkbox("多线程下载", use_thd);
+                Boot.atd = use_thd.accessValue();
                 File file = new File("./rules/");
                 File[] files = file.listFiles();
                 if (files != null) {
@@ -82,6 +85,8 @@ public class Main {
 //            if(imGui.button("运行")){
 //                if(inpcom.toString()=="help") log("-- 控制台指令帮助 --\r\n 1.help 打印帮助\r\n 2.没有了");
 //            }
+            imGui.begin("Thread list");
+            imGui.text(ThingIO.tdinf);
             imGui.render();
         }
     }

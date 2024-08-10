@@ -12,6 +12,7 @@ import static com.teipreader.reptile.lib.get_thing.ByJsonDownload;
 
 public class Boot {
     public static String start_path = "./tmp/";
+    public static boolean atd = true;
     public static void main(String[] args) throws IOException {
         System.setProperty("file.encoding", "UTF-8");
         System.out.println("commands (NoUI)");

@@ -37,7 +37,7 @@ public class File_use {
         File file = new File(strFilePath);
         List<String> rstr = new ArrayList<>();
         if (!file.exists() || file.isDirectory()) {
-            System.out.println((char) 27 + "[31m[E]: 找不到文件." + (char) 27 + "[39;49m");
+            System.out.println((char) 27 + "[31m[E]: 找不到文件."+strFilePath + (char) 27 + "[39;49m");
             return rstr;
         } else {
             FileInputStream fileInputStream = null;
