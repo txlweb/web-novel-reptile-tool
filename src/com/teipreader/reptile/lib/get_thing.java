@@ -306,13 +306,14 @@ public class get_thing {
                         ThingIO.al=0;
                         ThingIO.out_text = "正在下载:" + name + "\r\n作者:" + by + "\r\n简介:" + AutoBR(ot, 34) + "\r\n进度: (正在等待全部线程完成) (UNKNOW)\r\n" + TextProgressBar(ul.size(), 0);
                     }
-                    System.gc();
+
                     for (String s : textlist) {
                         //System.out.println(s);
                         bufferWriter_txt.write(s + "\r\n");
                     }
                 }
                 bufferWriter_txt.close();
+                System.gc();
                 clear_tmps();
                 //buffer写入一个配置文件
                 new File(start_path+"/resource.ini").delete();
@@ -347,14 +348,9 @@ public class get_thing {
             }finally {
                 clear_tmps();
             }
-//        if(Objects.equals(jx.get("mode").getAsString(), "tool")){
-//            //{"mode":"tool","in":"[工具-清除空行]打开一个文件","id":"clnop"}
-//            //{"mode":"tool","in":"[工具-批量替换]打开一个文件","id":"repall"}
-//
-//        }
+
             ThingIO.out_text = null;
         }
-
         return true;
     }
 

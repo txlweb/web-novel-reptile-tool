@@ -21,15 +21,8 @@ public class Download_file {
         }
         return fileSize;
     }
-    public static String last_url="";
     public static boolean Dw_File(String dw_url, String save_as) throws MalformedURLException {
-        if(dw_url==last_url){
-            //return true;
-        }
-        last_url=dw_url;
-        int bytesum = 0;
         int byteread;
-        //long longer = getFileSize(dw_url);
         long longer=0;
         int r = 0;
         URL url = new URL(dw_url);
@@ -42,16 +35,15 @@ public class Download_file {
                 if (byteread == -1) {
                     break;
                 }
-                bytesum += byteread;
                 if (r >= 100) {
-                    System.out.println(bytesum + "/" + longer + "bits");
                     r = 0;
                 }
                 r = r + 1;
                 fs.write(buffer, 0, byteread);
             }
-            System.out.println(longer + "/" + longer + "bits 下载完毕");
+            System.out.println("[Task]: "+dw_url + "->" + save_as + " [OK]");
         } catch (IOException e) {
+            System.out.println("[Task]: "+dw_url + "->" + save_as + " [FAIL]");
             return false;
         }
         return true;
